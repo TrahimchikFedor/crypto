@@ -9,9 +9,13 @@ export class RefreshTokenDto{
 }
 
 export class ResponseTokensDto{
-    @ApiProperty()
+    @ApiProperty({
+        example:"token_string"
+    })
     accessToken: string
 
-    @ApiProperty()
+    @ApiProperty({
+        example:"token_string"
+    })
     refreshToken: string
 }
