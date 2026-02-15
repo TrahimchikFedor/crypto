@@ -1,35 +1,36 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
-import { Reflector } from "@nestjs/core";
-import { AuthGuard } from "@nestjs/passport";
-import { UserScalarFieldEnum } from "generated/prisma/internal/prismaNamespace";
-import { Observable } from "rxjs";
-import { SubscriptionLog } from "rxjs/internal/testing/SubscriptionLog";
-import { IS_PUBLIC_KEY } from "../decorators/public.guard";
-
+import {
+    ExecutionContext,
+    Injectable,
+    UnauthorizedException,
+} from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
+import { AuthGuard } from '@nestjs/passport';
+import { UserScalarFieldEnum } from 'generated/prisma/internal/prismaNamespace';
+import { Observable } from 'rxjs';
+import { SubscriptionLog } from 'rxjs/internal/testing/SubscriptionLog';
+import { IS_PUBLIC_KEY } from './public.guard';
 
 @Injectable()
-export class JwtAuthGuard extends AuthGuard('jwt'){
-    constructor(private reflector: Reflector){
+export class JwtAuthGuard extends AuthGuard('jwt') {
+    constructor(private reflector: Reflector) {
         super();
     }
 
-    canActivate(context: ExecutionContext){
+    canActivate(context: ExecutionContext) {
+        const isPublic = this.reflector.getAllAndOverride<boolean>(
+            IS_PUBLIC_KEY,
+            [context.getHandler(), context.getClass()],
+        );
 
-        const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
-            context.getHandler(),
-            context.getClass(),
-        ]);
-
-        if(isPublic){
-            return true
+        if (isPublic) {
+            return true;
         }
-
 
         return super.canActivate(context);
     }
 
-    handleRequest(err, user, info){
-        if(err || !user){
+    handleRequest(err, user, info) {
+        if (err || !user) {
             throw err || new UnauthorizedException();
         }
 
