@@ -14,7 +14,12 @@ import { AuthService } from './auth.service';
 import { Public } from './guards/public.guard';
 import { LoginUserDto, RegisterUserDto } from './dto/user.dto';
 import { RefreshTokenDto, ResponseTokensDto } from './dto/token.dto';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import {
+    ApiBearerAuth,
+    ApiBody,
+    ApiOperation,
+    ApiResponse,
+} from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {

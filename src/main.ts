@@ -10,6 +10,17 @@ async function bootstrap() {
     const config = new DocumentBuilder()
         .setTitle('Crypto')
         .setDescription('The crypto API description')
+        .addBearerAuth(
+            {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+                name: 'Authorization',
+                description: 'Введите JWT токен',
+                in: 'header',
+            },
+            'access-token',
+        )
         .build();
 
     const documnetFactory = () => SwaggerModule.createDocument(app, config);

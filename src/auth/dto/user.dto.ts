@@ -1,6 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsISO4217CurrencyCode, IsString } from 'class-validator';
+import {
+    IsArray,
+    IsISO4217CurrencyCode,
+    IsOptional,
+    IsString,
+} from 'class-validator';
 
 export class LoginUserDto {
     @ApiProperty({
@@ -27,8 +32,9 @@ export class RegisterUserDto {
     preferredCryptocurrency: string[];
 
     @ApiProperty()
+    @IsOptional()
     @IsString({ each: true })
     @IsArray()
     @IsISO4217CurrencyCode({ each: true })
-    preferredCurrency: string[];
+    preferredCurrency?: string[];
 }
