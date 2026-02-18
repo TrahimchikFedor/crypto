@@ -2,7 +2,7 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CryptocurrencyService } from './cryptocurrency.service';
 import { Public } from '../auth/guards/public.guard';
 import { MetadataService } from './metadata.service';
-import { User } from 'src/auth/decorators/user.decorator';
+import { Authorized } from 'src/auth/decorators/authorized.decorator';
 import {
     ApiBearerAuth,
     ApiOkResponse,
@@ -28,7 +28,8 @@ export class CryptocurrencyController {
     })
     @ApiQuery({
         name: 'currency',
-        description: 'Currency',
+        description:
+            "Currency. If not provided, the user's default currency from database will be used",
         example: 'USD',
         type: String,
         required: false,
@@ -47,7 +48,7 @@ export class CryptocurrencyController {
     })
     @Get('getPrice')
     async getPrice(
-        @User() user,
+        @Authorized() user,
         @Query('symbol') symbol: string,
         @Query('currency') currency?: string,
     ) {

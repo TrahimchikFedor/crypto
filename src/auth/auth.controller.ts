@@ -57,6 +57,7 @@ export class AuthController {
     @Public()
     @Post('/register')
     async register(@Body() dto: RegisterUserDto): Promise<ResponseTokensDto> {
+        console.log(dto);
         return await this.authService.register(dto);
     }
 
@@ -77,10 +78,5 @@ export class AuthController {
         @Body() dto: RefreshTokenDto,
     ): Promise<ResponseTokensDto> {
         return await this.authService.refresh(dto.refreshToken);
-    }
-
-    @Get('/profile')
-    async profile() {
-        return 'hello world';
     }
 }

@@ -67,7 +67,9 @@ export class AuthService {
         const existsUser = await this.usersService.findOne(user.username);
 
         if (existsUser) {
-            throw new ConflictException('Пользователь с таким именем уже');
+            throw new ConflictException(
+                'Пользователь с таким именем уже существует',
+            );
         }
 
         const newUser = await this.usersService.createUser(user);
