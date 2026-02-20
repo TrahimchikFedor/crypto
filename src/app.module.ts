@@ -11,9 +11,14 @@ import { ConfigModule } from '@nestjs/config';
 import { CryptocurrencyModule } from './cryptocurrency/cryptocurrency.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
     imports: [
+        ServeStaticModule.forRoot({
+            rootPath: join(__dirname, '..', 'uploads', 'avatars'),
+        }),
         ScheduleModule.forRoot(),
         CacheModule.register({
             isGlobal: true,
